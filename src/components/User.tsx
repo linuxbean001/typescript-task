@@ -18,7 +18,21 @@ class User extends React.Component<any, ModelStatus> {
     }
 
     componentDidMount() {
+        this.load('userList')
+    }
 
+    load(key: string) {
+        const dataString = localStorage.getItem(key);
+        return new Promise((resolve) => {
+            if (dataString) {
+                const dataObj = JSON.parse(dataString);
+                this.setState({
+                    userList: dataObj
+                })
+                resolve(dataObj);
+            }
+            resolve();
+        });
     }
     modelOpen = () => {
         this.setState({ show: true });
@@ -67,6 +81,7 @@ class User extends React.Component<any, ModelStatus> {
         this.setState({
             userList: userList
         })
+        localStorage.setItem('userList', JSON.stringify(userList))
         this.modelClose()
     }
 
@@ -77,6 +92,7 @@ class User extends React.Component<any, ModelStatus> {
         this.setState({
             userList: userList
         })
+        localStorage.setItem('userList', JSON.stringify(userList))
     }
     render() {
         return (
